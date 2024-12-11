@@ -1,4 +1,4 @@
-# Cypress Eed to End testing
+# Cypress - Eed to End testing
 
 [Cypress.io](https://www.cypress.io) is an open source, MIT licensed end-to-end test runner
 
@@ -92,17 +92,7 @@ pnpm cypress open
 ![](https://s3.amazonaws.com/tw-inlineimages/386890/0/0/7e4b3814ca3a2ac66dda8e4a3a36467e.png)
 2.  Choose a browser
 ![](https://s3.amazonaws.com/tw-inlineimages/386890/0/0/7e5000aa972817cf4968dd937bdaf298.png)
-3. After opening the app , you should see it displayed in the list of end-to-end specs
-    * [login](): Log in test
-    * [supplier](): Supplier test
-        * TC#1: Create new supplier
-        * TC#2: Find the existing supplier and update details
-        * TC#3: Delete the existing Supplier 
-![](https://s3.amazonaws.com/tw-inlineimages/386890/0/0/7e570179af908d4448c163fa00e18cf2.png)
-
-
-
-https://github.com/user-attachments/assets/4a41bc87-c782-4a34-b1cc-bd4a61a405f0
+3. After opening the app, you should see it displayed in the list of end-to-end specs
 
 
 
