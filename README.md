@@ -1,4 +1,4 @@
-# Cypress - Eed to End testing
+# Cypress - End to End testing
 
 [Cypress.io](https://www.cypress.io) is an open source, MIT licensed end-to-end test runner
 
