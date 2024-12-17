@@ -1,7 +1,7 @@
 {
   "name": "cypress-e2e",
   "version": "1.0.0",
-  "type":"module",
+  "type": "module",
   "description": "[Cypress.io](https://www.cypress.io) is an open source, MIT licensed end-to-end test runner",
   "main": "index.js",
   "dependencies": {
@@ -226,11 +226,10 @@
     "yauzl": "^2.10.0",
     "yocto-queue": "^0.1.0"
   },
- "scripts": {
-  "install:cypress": "cypress install",
-  "test": "npx cypress run"
-}
-
+  "scripts": {
+    "install:cypress": "cypress install",
+    "test": "npx cypress run"
+  },
   "author": "",
   "license": "ISC"
 }
