@@ -3,7 +3,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:8080', // Set your application's base URL
+    baseUrl: 'https://mts-bol-dev.inconstruction.website', // Set your application's base URL
     supportFile: 'cypress/support/e2e.js',
     specPattern: 'cypress/e2e/**/*.cy.js', // Spec file naming convention
     downloadsFolder: 'cypress/downloads',
