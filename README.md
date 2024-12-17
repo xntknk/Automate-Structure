@@ -84,7 +84,7 @@ describe("Login Functionality", () => {
 
 ---
 
-#### 6. **CI/CD Integration**
+## 6. **CI/CD Integration**
 
 If you have set up CI/CD (e.g., GitHub Actions), include the workflow:
 
@@ -145,7 +145,8 @@ List common issues and how to fix them:
 
 3. **Fixtures not loading correctly**  
    - Check the `fixtures/userData.json` file for correct data format.
-   
+
+
 ## References
 
 - [Cypress Documentation](https://docs.cypress.io)
