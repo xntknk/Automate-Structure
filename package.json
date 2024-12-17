@@ -226,9 +226,11 @@
     "yauzl": "^2.10.0",
     "yocto-queue": "^0.1.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+ "scripts": {
+  "install:cypress": "cypress install",
+  "test": "npx cypress run"
+}
+
   "author": "",
   "license": "ISC"
 }
