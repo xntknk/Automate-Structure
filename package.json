@@ -53,7 +53,6 @@
     "concat-map": "^0.0.1",
     "core-util-is": "^1.0.2",
     "cross-spawn": "^7.0.6",
-    "cypress": "^13.16.1",
     "dashdash": "^1.14.1",
     "dayjs": "^1.11.13",
     "debug": "^4.4.0",
@@ -231,5 +230,8 @@
     "test": "npx cypress run"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.16.1"
+  }
 }
