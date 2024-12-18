@@ -25,16 +25,7 @@ jobs:
       - name: Install Cypress binary
         run: npx cypress install
 
-      - name: Set Environment (Dev/Staging)
-        run: |
-          echo "CYPRESS_ENV=${{ secrets.CYPRESS_ENV }}" >> $GITHUB_ENV
-        env:
-          CYPRESS_ENV: ${{ github.event.inputs.env }}
-
       - name: Run Cypress tests
-        run: |
-          if [ "${{ env.CYPRESS_ENV }}" == "staging" ]; then
-            npx cypress run --config-file cypress.staging.json
-          else
-            npx cypress run --config-file cypress.dev.json
-          fi
+        run: npx cypress run
+
+
