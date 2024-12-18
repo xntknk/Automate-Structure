@@ -1,7 +1,7 @@
 {
     "validUser": {
-      "username": "admin",
-      "password": "P@$$word"
+      "username": "admin@bol.com",
+      "password": "123456789"
     },
     "invalidUser": {
       "username": "fakeUser",

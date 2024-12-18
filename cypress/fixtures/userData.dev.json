@@ -1,0 +1,11 @@
+{
+    "validUser": {
+      "username": "approval1@bol.com",
+      "password": "0123456789"
+    },
+    "invalidUser": {
+      "username": "fakeUser",
+      "password": "wrongPass"
+    }
+  }
+  
