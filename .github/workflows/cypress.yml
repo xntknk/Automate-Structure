@@ -4,28 +4,60 @@ on:
   push:
     branches:
       - main
-      - Ex
+      - Ex  # Run tests on pushes to the `main` branch
+  pull_request:
+    branches:
+      - main 
+      - Ex # Run tests for pull requests targeting the `main` branch
 
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Cache Cypress binary
+    strategy:
+      matrix:
+        env: [dev, staging]  # Add environments here (e.g., dev, staging, qa)
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Use Node.js v18 or any compatible version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci # Faster than npm install
+
+      # Step 4: Verify Cypress installation
+      - name: Verify Cypress
+        run: npx cypress verify
+
+      # Step 5: Cache Cypress binary
+      - name: Cache Cypress
         uses: actions/cache@v3
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
-      
-      - name: Install dependencies
-        run: npm install
+          restore-keys: |
+            ${{ runner.os }}-cypress-
 
-      - name: Install Cypress binary
-        run: npx cypress install
-
+      # Step 6: Run Cypress tests for each environment
       - name: Run Cypress tests
-        run: npx cypress run
+        env:
+          ENV: ${{ matrix.env }} # Pass the current environment (dev or staging)
+        run: npx cypress run --env ENV=${{ matrix.env }}
 
-
+      # Step 7: Upload test results for each environment
+      - name: Upload Test Results
+        if: always() # Always upload even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-results-${{ matrix.env }} # Store results by environment
+          path: |
+            cypress/screenshots
+            cypress/videos
