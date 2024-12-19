@@ -1,6 +1,6 @@
 class LoginPage {
   visit() {
-    cy.visit("/login"); // Navigate to the login page
+    cy.visit("/"); // Navigate to the login page
   }
 
   enterUsername(username) {

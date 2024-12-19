@@ -18,7 +18,7 @@ describe('Login Page Tests', () => {
       LoginPage.enterUsername(data.validUser.username);
       LoginPage.enterPassword(data.validUser.password);
       LoginPage.clickLoginButton();
-
+      cy.wait(3000);
       // Verify successful login
       cy.url().should('not.include', '/login');
     
