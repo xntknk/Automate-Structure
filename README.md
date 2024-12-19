@@ -6,9 +6,32 @@ This project contains **End-to-End (E2E)** test automation using Cypress for tes
 
 ## **Project Structure**
 
-cypress-e2e/ │ ├── cypress/
-│ ├── downloads/ # Folder for downloaded files during tests │ ├── e2e/ # Folder for E2E test scripts │ │ └── login.cy.js # Test cases for login functionality │ ├── fixtures/ # Static test data (e.g., user credentials) │ │ └── userData.json # Test data for login tests │ ├── screenshots/ # Screenshots taken on test failures │ ├── support/
-│ │ ├── e2e.js # Custom commands and hooks for tests │ │ └── commands.js # Custom Cypress commands │ └── videos/ # Recorded videos of test runs │ ├── node_modules/ # Installed dependencies ├── cypress.config.js # Cypress configuration file ├── package.json # Project dependencies and scripts ├── package-lock.json # Package lockfile for npm └── README.md # Documentation for the project
+
+```plaintext
+cypress-e2e/
+│
+├── cypress/                    
+│   ├── downloads/              # Folder for downloaded files during tests
+│   ├── e2e/                    # Folder for E2E test scripts
+│   │   └── login.cy.js         # Test cases for login functionality
+│   ├── fixtures/               # Static test data (e.g., user credentials)
+│   │   └── userData.json       # Test data for login tests
+│   ├── pages/                  
+│   │   └── LoginPage.js  
+│   ├── screenshots/            # Screenshots taken on test failures
+│   ├── support/                
+│   │   ├── e2e.js              # Custom commands and hooks for tests
+│   │   └── commands.js         # Custom Cypress commands
+│   └── videos/                 # Recorded videos of test runs
+│
+├── node_modules/               # Installed dependencies
+├── cypress.config.js           # Cypress configuration file
+├── package.json                # Project dependencies and scripts
+├── package-lock.json           # Package lockfile for npm
+└── README.md                   # Documentation for the project
+
+```
+
 
 ---
 
@@ -37,18 +60,23 @@ Follow these steps to set up the project:
    cd cypress-e2e
 
 2. **Install project dependencies**:
+   ```bash
     npm install
 
-3. **Add Cypress to your project (if not already installed)**:
+4. **Add Cypress to your project (if not already installed)**:
+   ```bash
     npx cypress install
 
-4. **Open Cypress (interactive mode)**:
+5. **Open Cypress (interactive mode)**:
+   ```bash
     npx cypress open
 
-5. **Run Cypress tests in headless mode**:
+6. **Run Cypress tests in headless mode**:
+   ```bash
     npx cypress run
 
-6. **Run a specific test file**:
+7. **Run a specific test file**:
+    ```bash
     npx cypress run --spec "cypress/e2e/login.cy.js"
 
 ---
@@ -81,7 +109,7 @@ describe("Login Functionality", () => {
     });
   });
 });
-
+```
 ---
 
 ## 6. **CI/CD Integration**
@@ -101,30 +129,53 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - main
-      - Ex
+      - main  # Run tests on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Run tests for pull requests targeting the main branch
 
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Cache Cypress binary
-        uses: actions/cache@v3
+    strategy:
+      matrix:
+        env: [dev, staging]  # Environments to test (add more if needed)
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
-      
+          node-version: '18'
+
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      - name: Install Cypress binary
-        run: npx cypress install
+      # Step 4: Verify Cypress installation
+      - name: Verify Cypress
+        run: npx cypress verify
 
+      # Step 5: Run Cypress tests for each environment
       - name: Run Cypress tests
-        run: npx cypress run
+        env:
+          ENV: ${{ matrix.env }}
+        run: npx cypress run --env ENV=${{ matrix.env }}
+
+      # Step 6: Upload test results
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-results-${{ matrix.env }}
+          path: cypress/screenshots,cypress/videos
+
+```
 
 
 ---
@@ -133,7 +184,7 @@ jobs:
 
 List common issues and how to fix them:
 
-```markdown
+
 ## Troubleshooting
 
 1. **"ReferenceError: require is not defined"**  
@@ -147,6 +198,7 @@ List common issues and how to fix them:
    - Check the `fixtures/userData.json` file for correct data format.
 
 
+
 ## References
 
 - [Cypress Documentation](https://docs.cypress.io)
@@ -154,4 +206,4 @@ List common issues and how to fix them:
 - [GitHub Actions for CI/CD](https://docs.github.com/en/actions)
 
 
-# qa-automation
+
