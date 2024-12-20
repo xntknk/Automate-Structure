@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - Ex  # Run tests on pushes to the `main` branch
+      - Ex  # Run tests on pushes to the `main` or `Ex` branch
   pull_request:
     branches:
-      - main 
-      - Ex # Run tests for pull requests targeting the `main` branch
+      - main
+      - Ex  # Run tests for pull requests targeting the `main` branch
 
 jobs:
   cypress-run:
@@ -62,27 +62,31 @@ jobs:
             cypress/screenshots
             cypress/videos
 
-       # Step 8: Send Notification to Lark
+      # Step 8: Send Notification to Lark
       - name: Send Lark Notification
+        if: always() # Ensure notification is sent regardless of success or failure
         run: |
-         curl -X POST -H "Content-Type: application/json" -d '{
-           "msg_type": "interactive",
-           "card": {
-             "header": {
-               "title": {
-                 "tag": "plain_text",
-                 "content": "GitHub Actions Workflow Status"
-               }
-             },
-             "elements": [
-               {
-                 "tag": "div",
-                 "text": {
-                   "tag": "lark_md",
-                   "content": "**Status:** ${{ job.status }}\n**Environment:** ${{ matrix.env }}\n[View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-                 }
-               }
-             ]
-           }
-         }' https://open.larksuite.com/open-apis/bot/v2/hook/4a39d85a-a724-4f7d-afa2-3f7c86aefe20
-     
+          curl -X POST -H "Content-Type: application/json" -d '{
+            "msg_type": "interactive",
+            "card": {
+              "header": {
+                "title": {
+                  "tag": "plain_text",
+                  "content": "GitHub Actions Workflow Status"
+                }
+              },
+              "elements": [
+                {
+                  "tag": "div",
+                  "text": {
+                    "tag": "lark_md",
+                    "content": "**Status:** ${{ job.status }}\n**Environment:** ${{ matrix.env }}\n[View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+                  }
+                }
+              ]
+            }
+          }' https://open.larksuite.com/open-apis/bot/v2/hook/c3c7c897-75ab-4c48-ae3f-a12672934f9b
+
+
+
+# https://open.larksuite.com/open-apis/bot/v2/hook/4a39d85a-a724-4f7d-afa2-3f7c86aefe20
