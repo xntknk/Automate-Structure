@@ -1,10 +1,16 @@
 // Example of a custom command for login
-Cypress.Commands.add('login', (username, password) => {
-    cy.visit('/login');
-    cy.get('#username').type(username);
-    cy.get('#password').type(password);
-    cy.get('button[type="submit"]').click();
-  });
+Cypress.Commands.add('login', (username, password) => 
+  {
+      cy.session([username,password], () =>
+      {
+          cy.visit('/')
+          cy.get('#email-address').type(username)
+          cy.get('#password').type(password)
+          cy.get('[type="submit"]').click()
+          cy.wait(5000)
+      })
+      
+  })
   
   // Command for API requests
   Cypress.Commands.add('apiRequest', (method, url, body) => {

@@ -14,8 +14,8 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // Dynamically resolve the fixture file
       const fixtureFile = config.env.ENV === 'staging'
-        ? 'userData.staging.json'
-        : 'userData.dev.json';
+        ? 'loginData.staging.json'
+        : 'loginData.dev.json';
 
       // console.log(`Using fixture file: ${fixtureFile}`);
       

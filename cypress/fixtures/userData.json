@@ -1,0 +1,25 @@
+{
+    "newUser": {
+      "firstName": "Mister",
+      "lastName": "Cypress",
+      "mobileNumber": "201523456778",
+      "email": "mrcypress@email.com",
+      "role": "Staff",
+      "department": "Reporter",
+      "subDepartment": "Viewer",
+      "position": "Reporter"
+    },
+    "editUser": {
+      "firstName": "MR.",
+      "lastName": "CP",
+      "mobileNumber": "0",
+      "role": "Staff",
+      "department": "Reporter1",
+      "subDepartment": "Viewer1",
+      "position": "Reporter1"
+    },
+    "deleteUser": {
+      "email": "mrcypress@email.com"
+    }
+  }
+  
