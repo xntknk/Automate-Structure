@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        env: [dev, staging]  # Add environments here (e.g., dev, staging, qa)
+        env: [dev]  # Add environments here (e.g., dev, staging, qa)
 
     steps:
       # Step 1: Checkout the code
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v3
 
       # Step 2: Set up Node.js
-      - name: Set up Node.js
+      - name: Set up Node.jss
         uses: actions/setup-node@v3
         with:
           node-version: '18' # Use Node.js v18 or any compatible version
