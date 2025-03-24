@@ -29,11 +29,11 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: '18' # Use Node.js v18 or any compatible version
 
@@ -47,7 +47,7 @@ jobs:
 
       # Step 5: Cache Cypress binary
       - name: Cache Cypress
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
@@ -63,7 +63,7 @@ jobs:
       # Step 7: Upload test results for each environment
       - name: Upload Test Results
         if: always() # Always upload even if tests fail
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: cypress-results-${{ matrix.env }} # Store results by environment
           path: |
