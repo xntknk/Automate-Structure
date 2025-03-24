@@ -1,22 +1,19 @@
 name: Cypress Tests
 
 on:
-  # Trigger workflow on push to specific branches
   push:
     branches:
       - main
-      - Ex  # Run tests on pushes to the `main` or `Ex` branch
+      - Ex
 
-  # Trigger workflow on pull requests targeting specific branches
   pull_request:
     branches:
       - main
-      - Ex  # Run tests for pull requests targeting the `main` or `Ex` branch
+      - Ex
 
-  # Schedule workflow to run daily
   schedule:
-    - cron: '0 9 * * *' # Run daily (adjust as needed)
-  workflow_dispatch: # Allow manual triggering
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   cypress-run:
@@ -29,17 +26,17 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '18' # Use Node.js v18 or any compatible version
+          node-version: '18'
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm ci # Faster than npm install
+        run: npm ci
 
       # Step 4: Verify Cypress installation
       - name: Verify Cypress
@@ -47,7 +44,7 @@ jobs:
 
       # Step 5: Cache Cypress binary
       - name: Cache Cypress
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
@@ -57,22 +54,23 @@ jobs:
       # Step 6: Run Cypress tests for each environment
       - name: Run Cypress tests
         env:
-          ENV: ${{ matrix.env }} # Pass the current environment (e.g., dev)
+          ENV: ${{ matrix.env }}
         run: npx cypress run --env ENV=${{ matrix.env }}
 
-      # Step 7: Upload test results for each environment
+      # Step 7: Upload test results (screenshots, videos)
       - name: Upload Test Results
-        if: always() # Always upload even if tests fail
-        uses: actions/upload-artifact@v2
+        if: always()
+        uses: actions/upload-artifact@v3.1.3
         with:
-          name: cypress-results-${{ matrix.env }} # Store results by environment
+          name: cypress-results-${{ matrix.env }}
           path: |
             cypress/screenshots
             cypress/videos
 
       # Step 8: Send Notification to Lark
       - name: Send Lark Notification
-        if: always() # Ensure notification is sent regardless of success or failure
+        if: always()
+        continue-on-error: true
         run: |
           curl -X POST -H "Content-Type: application/json" -d '{
             "msg_type": "interactive",
