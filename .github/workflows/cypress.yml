@@ -11,8 +11,8 @@ on:
       - main
       - Ex
 
-  schedule:
-    - cron: '0 9 * * *'
+  # schedule:
+  #   - cron: '0 9 * * *'
   workflow_dispatch:
 
 jobs:
