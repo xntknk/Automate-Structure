@@ -1,28 +1,25 @@
-import 'dotenv/config'; // Load environment variables from .env
+import 'dotenv/config';
 import { defineConfig } from 'cypress';
+
+const ENV = process.env.ENV || 'dev';
+const BASE_URL = process.env[`BASE_URL_${ENV.toUpperCase()}`];
 
 export default defineConfig({
   e2e: {
-    baseUrl: process.env.ENV === 'staging'
-      ? 'https://mts-bol-staging.inconstruction.website'
-      : 'https://mts-bol-dev.inconstruction.website',
-    
+    baseUrl: BASE_URL,
+
     env: {
-      ENV: process.env.ENV || 'dev', // Default to dev if ENV is not set
+      ENV,
+      BASE_URL,
     },
 
     setupNodeEvents(on, config) {
-      // Dynamically resolve the fixture file
-      const fixtureFile = config.env.ENV === 'staging'
+      const fixtureFile = ENV === 'staging'
         ? 'loginData.staging.json'
         : 'loginData.dev.json';
 
-      // console.log(`Using fixture file: ${fixtureFile}`);
-      
-      // Set the resolved file in the config
       config.env.fixtureFile = fixtureFile;
-
-      return config; // Return modified config object
+      return config;
     },
 
     supportFile: 'cypress/support/e2e.js',

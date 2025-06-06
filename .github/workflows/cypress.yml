@@ -4,15 +4,12 @@ on:
   push:
     branches:
       - main
-      - Ex
+
 
   pull_request:
     branches:
       - main
-      - Ex
 
-  # schedule:
-  #   - cron: '0 9 * * *'
   workflow_dispatch:
 
 jobs:
@@ -21,10 +18,10 @@ jobs:
 
     strategy:
       matrix:
-        env: [dev]  # Add environments here (e.g., dev, staging, qa)
+        env: [dev, staging]  # เพิ่ม environment ได้ตามต้องการ
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -38,11 +35,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Step 4: Verify Cypress installation
+      # Step 4: Write .env file dynamically
+      - name: Write .env file from secrets
+        run: |
+          echo "ENV=${{ matrix.env }}" >> .env
+          echo "BASE_URL_DEV=${{ secrets.BASE_URL_DEV }}" >> .env
+          echo "BASE_URL_STAGING=${{ secrets.BASE_URL_STAGING }}" >> .env
+
+
+      # Step 5: Verify Cypress installation
       - name: Verify Cypress
         run: npx cypress verify
 
-      # Step 5: Cache Cypress binary
+      # Step 6: Cache Cypress binary
       - name: Cache Cypress
         uses: actions/cache@v3
         with:
@@ -51,13 +56,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      # Step 6: Run Cypress tests for each environment
+      # Step 7: Run Cypress tests (no need to pass --env if using dotenv)
       - name: Run Cypress tests
-        env:
-          ENV: ${{ matrix.env }}
-        run: npx cypress run --env ENV=${{ matrix.env }}
+        run: npx cypress run
 
-      # Step 7: Upload test results (screenshots, videos)
+      # Step 8: Upload test results (screenshots/videos)
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v3
@@ -67,7 +70,7 @@ jobs:
             cypress/screenshots
             cypress/videos
 
-      # Step 8: Send Notification to Lark
+      # Step 9: Send Lark Notification
       - name: Send Lark Notification
         if: always()
         continue-on-error: true
